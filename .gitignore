@@ -1,0 +1,30 @@
+/target
+.idea
+*.iml
+*.class
+*.jar
+*.war
+*.ear
+*.db
+
+# add all the standard exclusions
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Eclipse
+.classpath
+.project
+.settings/
+# IntelliJ IDEA
+
+*.iml
+.idea/
+# NetBeans
+nbproject/private/
+# VS Code
+.vscode/
+# Maven
+target/

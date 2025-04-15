@@ -1,0 +1,41 @@
+[package]
+name = "time-series-ql"
+version = "0.1.0"
+edition = "2021"
+description = "A high-performance time series query language and processing engine"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.28", features = ["full"] }
+# Actor framework for concurrent processing
+actix = "0.13"
+# Parser combinators for query language
+nom = "7.1"
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+# Efficient time series storage
+arrow = { version = "55.0.0", features = ["json"] }
+arrow-arith = "55.0.0"
+# Stream processing
+futures = "0.3"
+# API server
+axum = "0.6"
+tower = "0.4"
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# Logging and metrics
+tracing = "0.1"
+tracing-subscriber = "0.3"
+metrics = "0.21"
+# Testing
+criterion = "0.5"
+
+[dev-dependencies]
+tokio-test = "0.4"
+actix-rt = "2.8"
+
+[lib]
+name = "time_series_ql"
+path = "src/lib.rs"
