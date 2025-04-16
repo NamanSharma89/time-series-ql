@@ -1,19 +1,14 @@
 use actix::prelude::*;
 use anyhow::Result;
 use arrow::{
-    array::{Float64Array, TimestampNanosecondArray, UInt64Array},
+    array::{Float64Array, TimestampNanosecondArray, UInt64Array, StringArray},
     record_batch::RecordBatch,
     compute,
 };
 use futures::stream::{self, StreamExt};
 use std::{sync::Arc, time::Duration};
 use crate::{parser::{Query, Aggregation}, storage::TimeSeriesStore};
-use arrow::datatypes::Schema;
 use crate::parser::WindowSpec;
-use tokio::sync::RwLock;
-use actix::System;
-use arrow::array::StringArray;
-
 
 /// Actor message for query execution
 #[derive(Message)]
@@ -39,6 +34,13 @@ impl QueryEngine {
 
     pub fn get_store(&self) -> Arc<TimeSeriesStore> {
         self.store.clone()
+    }
+
+    pub fn start_actor(&self) -> Addr<Self> 
+    where
+        Self: Clone,
+    {
+        Actor::start(self.clone())
     }
 
     async fn apply_window(&self, batches: Vec<RecordBatch>, window: Duration) -> Result<Vec<RecordBatch>> {
@@ -238,9 +240,6 @@ impl Handler<ExecuteQuery> for QueryEngine {
     }
 }
 
-
-
-
 // Update the test to use the existing TimeSeriesStore implementation
 #[cfg(test)]
 mod tests {
@@ -262,7 +261,7 @@ mod tests {
         store.append(timestamps, metrics, values, tags).await.unwrap();
 
         let engine = QueryEngine::new(store);
-        let addr = engine.start();
+        let addr = engine.start_actor();
         
         let query = Query {
             select: vec![Aggregation::Avg("cpu".to_string())],

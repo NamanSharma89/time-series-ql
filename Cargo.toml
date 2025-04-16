@@ -9,6 +9,8 @@ description = "A high-performance time series query language and processing engi
 tokio = { version = "1.28", features = ["full"] }
 # Actor framework for concurrent processing
 actix = "0.13"
+actix-web = "4.0"
+env_logger = "0.9"
 # Parser combinators for query language
 nom = "7.1"
 # Error handling

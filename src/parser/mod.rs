@@ -2,9 +2,9 @@ use nom::{
     branch::alt,
     bytes::complete::{tag, tag_no_case, take_while1},
     character::complete::{alphanumeric1, multispace0, multispace1, char, digit1},
-    combinator::{map, opt},
+    combinator::opt,
     multi::separated_list0,
-    sequence::{delimited, pair, preceded, tuple},
+    sequence::{delimited, preceded, tuple},
     IResult,
 };
 use serde::{Deserialize, Serialize};
